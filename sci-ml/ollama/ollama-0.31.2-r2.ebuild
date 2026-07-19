@@ -116,9 +116,11 @@ src_install() {
 	dobin "${BUILD_DIR}"/llama-server-local/ollama
 	insinto usr
 	doins -r "${BUILD_DIR}"/lib
-	fperms 0755 /usr/lib/ollama/libllama-*-impl.so
-	fperms 0755 /usr/lib/ollama/lib*.so.0.0.0
-	fperms 0755 /usr/lib/ollama/llama-*
+	pushd "${ED}" || die
+		chmod 0755 usr/lib/ollama/libllama-*-impl.so || die
+		chmod 0755 usr/lib/ollama/lib*.so.0.0.0 || die
+		chmod 0755 usr/lib/ollama/llama-* || die
+	popd || die
 
 	einstalldocs
 
